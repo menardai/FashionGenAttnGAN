@@ -7,7 +7,7 @@ from miscc.config import cfg, cfg_from_file
 
 from datasets import TextDataset
 from datasets import prepare_data
-from dataset_fashiongen import TextDataset as TextFashionGenDataset
+from dataset_fashiongen2 import TextDataset as TextFashionGenDataset
 
 from model import RNN_ENCODER, CNN_ENCODER
 
@@ -63,6 +63,8 @@ def train(dataloader, cnn_model, rnn_model, batch_size, labels, optimizer, epoch
         cnn_model.zero_grad()
 
         imgs, captions, cap_lens, class_ids, keys = prepare_data(data)
+
+        # nef -- cfg.TEXT.EMBEDDING_DIM = 256 (for FashionGen)
 
         # words_features: batch_size x nef x 17 x 17
         # sent_code: batch_size x nef
@@ -231,7 +233,7 @@ if __name__ == "__main__":
     batch_size = cfg.TRAIN.BATCH_SIZE
 
     # dataset images transforms
-    if cfg.DATASET_NAME == 'fashiongen':
+    if cfg.DATASET_NAME == 'fashiongen2':
         image_transform = transforms.Compose([
             transforms.Resize(imsize),
             transforms.RandomHorizontalFlip()])
@@ -241,7 +243,7 @@ if __name__ == "__main__":
             transforms.RandomCrop(imsize),
             transforms.RandomHorizontalFlip()])
 
-    if cfg.DATASET_NAME == 'fashiongen':
+    if cfg.DATASET_NAME == 'fashiongen2':
         dataset = TextFashionGenDataset(cfg.DATA_DIR, 'train', base_size=cfg.TREE.BASE_SIZE, transform=image_transform)
     else:
         dataset = TextDataset(cfg.DATA_DIR, 'train', base_size=cfg.TREE.BASE_SIZE, transform=image_transform)
@@ -252,7 +254,7 @@ if __name__ == "__main__":
         dataset, batch_size=batch_size, drop_last=True, shuffle=True, num_workers=int(cfg.WORKERS))
 
     # # validation data #
-    if cfg.DATASET_NAME == 'fashiongen':
+    if cfg.DATASET_NAME == 'fashiongen2':
         dataset_val = TextFashionGenDataset(cfg.DATA_DIR, 'test', base_size=cfg.TREE.BASE_SIZE, transform=image_transform)
     else:
         dataset_val = TextDataset(cfg.DATA_DIR, 'test', base_size=cfg.TREE.BASE_SIZE, transform=image_transform)

@@ -119,16 +119,13 @@ class RNN_ENCODER(nn.Module):
         # self.decoder.weight.data.uniform_(-initrange, initrange)
         # self.decoder.bias.data.fill_(0)
 
-    def init_hidden(self, bsz):
+    def init_hidden(self, batch_size):
         weight = next(self.parameters()).data
         if self.rnn_type == 'LSTM':
-            return (Variable(weight.new(self.nlayers * self.num_directions,
-                                        bsz, self.nhidden).zero_()),
-                    Variable(weight.new(self.nlayers * self.num_directions,
-                                        bsz, self.nhidden).zero_()))
+            return (Variable(weight.new(self.nlayers * self.num_directions, batch_size, self.nhidden).zero_()),
+                    Variable(weight.new(self.nlayers * self.num_directions, batch_size, self.nhidden).zero_()))
         else:
-            return Variable(weight.new(self.nlayers * self.num_directions,
-                                       bsz, self.nhidden).zero_())
+            return Variable(weight.new(self.nlayers * self.num_directions, batch_size, self.nhidden).zero_())
 
     def forward(self, captions, cap_lens, hidden, mask=None):
         # input: torch.LongTensor of size batch x n_steps
@@ -242,7 +239,7 @@ class CNN_ENCODER(nn.Module):
         x = self.Mixed_6e(x)
         # 17 x 17 x 768
 
-        # image region features
+        # --- image region features ---
         features = x
         # 17 x 17 x 768
 
@@ -259,7 +256,7 @@ class CNN_ENCODER(nn.Module):
         x = x.view(x.size(0), -1)
         # 2048
 
-        # global image features
+        # --- global image features ---
         cnn_code = self.emb_cnn_code(x)
         # 512
         if features is not None:

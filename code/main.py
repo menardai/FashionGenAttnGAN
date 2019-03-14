@@ -2,6 +2,8 @@ from __future__ import print_function
 
 from miscc.config import cfg, cfg_from_file
 from datasets import TextDataset
+from dataset_fashiongen2 import TextDataset as TextFashionGenDataset
+
 from trainer import condGANTrainer as trainer
 
 import os
@@ -110,8 +112,7 @@ if __name__ == "__main__":
 
     now = datetime.datetime.now(dateutil.tz.tzlocal())
     timestamp = now.strftime('%Y_%m_%d_%H_%M_%S')
-    output_dir = '../output/%s_%s_%s' % \
-        (cfg.DATASET_NAME, cfg.CONFIG_NAME, timestamp)
+    output_dir = '../output/%s_%s_%s' % (cfg.DATASET_NAME, cfg.CONFIG_NAME, timestamp)
 
     split_dir, bshuffle = 'train', True
     if not cfg.TRAIN.FLAG:
@@ -120,17 +121,24 @@ if __name__ == "__main__":
 
     # Get data loader
     imsize = cfg.TREE.BASE_SIZE * (2 ** (cfg.TREE.BRANCH_NUM - 1))
-    image_transform = transforms.Compose([
-        transforms.Scale(int(imsize * 76 / 64)),
-        transforms.RandomCrop(imsize),
-        transforms.RandomHorizontalFlip()])
-    dataset = TextDataset(cfg.DATA_DIR, split_dir,
-                          base_size=cfg.TREE.BASE_SIZE,
-                          transform=image_transform)
+
+    if cfg.DATASET_NAME == 'fashiongen2':
+        image_transform = transforms.Compose([
+            transforms.Resize(imsize),
+            transforms.RandomHorizontalFlip()])
+
+        dataset = TextFashionGenDataset(cfg.DATA_DIR, split_dir, base_size=cfg.TREE.BASE_SIZE, transform=image_transform)
+    else:
+        image_transform = transforms.Compose([
+            transforms.Scale(int(imsize * 76 / 64)),
+            transforms.RandomCrop(imsize),
+            transforms.RandomHorizontalFlip()])
+
+        dataset = TextDataset(cfg.DATA_DIR, split_dir, base_size=cfg.TREE.BASE_SIZE, transform=image_transform)
+
     assert dataset
     dataloader = torch.utils.data.DataLoader(
-        dataset, batch_size=cfg.TRAIN.BATCH_SIZE,
-        drop_last=True, shuffle=bshuffle, num_workers=int(cfg.WORKERS))
+        dataset, batch_size=cfg.TRAIN.BATCH_SIZE, drop_last=True, shuffle=bshuffle, num_workers=int(cfg.WORKERS))
 
     # Define models and go to train/evaluate
     algo = trainer(output_dir, dataloader, dataset.n_words, dataset.ixtoword)
