@@ -1,4 +1,10 @@
+# Fashion-Gen Dataset
+
+[Fashion-Gen: The Generative Fashion Dataset and Challenge](https://arxiv.org/abs/1806.08317) by Negar Rostamzadeh, Seyedarian Hosseini, Thomas Boquet, Wojciech Stokowiec, Ying Zhang, Christian Jauvin, Chris Pal.
+
+
 # AttnGAN
+Forked from https://github.com/taoxugit/AttnGAN  
 
 Pytorch implementation for reproducing AttnGAN results in the paper [AttnGAN: Fine-Grained Text to Image Generation
 with Attentional Generative Adversarial Networks](http://openaccess.thecvf.com/content_cvpr_2018/papers/Xu_AttnGAN_Fine-Grained_Text_CVPR_2018_paper.pdf) by Tao Xu, Pengchuan Zhang, Qiuyuan Huang, Han Zhang, Zhe Gan, Xiaolei Huang, Xiaodong He. (This work was performed when Tao was an intern with Microsoft Research). 
@@ -67,24 +73,3 @@ In addition, please add the project folder to PYTHONPATH and `pip install` the f
  bird example              |  coco example
 :-------------------------:|:-------------------------:
 ![](https://github.com/taoxugit/AttnGAN/blob/master/example_bird.png)  |  ![](https://github.com/taoxugit/AttnGAN/blob/master/example_coco.png)
-
-
-### Creating an API
-[Evaluation code](eval) embedded into a callable containerized API is included in the `eval\` folder.
-
-### Citing AttnGAN
-If you find AttnGAN useful in your research, please consider citing:
-
-```
-@article{Tao18attngan,
-  author    = {Tao Xu, Pengchuan Zhang, Qiuyuan Huang, Han Zhang, Zhe Gan, Xiaolei Huang, Xiaodong He},
-  title     = {AttnGAN: Fine-Grained Text to Image Generation with Attentional Generative Adversarial Networks},
-  Year = {2018},
-  booktitle = {{CVPR}}
-}
-```
-
-**Reference**
-
-- [StackGAN++: Realistic Image Synthesis with Stacked Generative Adversarial Networks](https://arxiv.org/abs/1710.10916) [[code]](https://github.com/hanzhanggit/StackGAN-v2)
-- [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434) [[code]](https://github.com/carpedm20/DCGAN-tensorflow)
