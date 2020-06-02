@@ -30,7 +30,13 @@ In addition, please add the project folder to PYTHONPATH and `pip install` the f
 
 ### Data
 
-Download the [fashiongen](https://fashion-gen.com) image data. Extract them to `data/fashiongen/`.  
+Download the dataset images and extract them to `data/fashiongen/`.  
+
+[fashiongen_256_256_train.h5](https://drive.google.com/file/d/1yR-_NJ6CxCYB2i8UECEB2doNssj5J8Li/view?usp=sharing)  
+[fashiongen_256_256_validation.h5](https://drive.google.com/file/d/1R4JtSAtbbOi9mByBj-KpchNf9nDn6BO1/view?usp=sharing)
+
+[fashiongen_consume_data_example.pdf](https://drive.google.com/file/d/1Wi0pljcAbY7XR9CTRFfYJmUGAPDD-gGM/view?usp=sharing)
+
 
 
 
